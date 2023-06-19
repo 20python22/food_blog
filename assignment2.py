@@ -134,3 +134,4 @@ def question_9_delete_post_and_all_related_comments(post):
 post_to_delete = Post.objects.get(id=2)
 deleted = question_9_delete_post_and_all_related_comments(post_to_delete)
 print(deleted)
+# Output example: Is pizza the best
