@@ -12,6 +12,8 @@ class Topic(models.Model):
     """
     Represents a topic post
     """
+    objects = None  # This is required to fix pylint error Unresolved attribute reference
+    # 'objects' for class 'Topic'
     name = models.CharField(
         max_length=50,
         blank=False,
