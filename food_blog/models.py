@@ -36,8 +36,8 @@ class Post(models.Model):
     """
     Represents a blog post
     """
-    objects = None  # This is required to fix pylint error Unresolved attribute reference
-    # 'objects' for class 'Post'
+    objects = None  # This is required to fix pylint error Unresolved attribute
+    # reference 'objects' for class 'Comment'
     DRAFT = 'draft'
     PUBLISHED = 'published'
     STATUS_CHOICES = [

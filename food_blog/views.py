@@ -2,37 +2,27 @@
 All the Django views are in this file.
 """
 
-
 # food_blog/views.py
 
-from django.http import HttpResponse
 from django.shortcuts import render
-from django.db.models import Count
-from django.db.models import Subquery
+from django.views.generic.base import TemplateView
+from django.views.generic import ListView
 from . import models
 
 
-def index(_request):
-    """
-    Http response.
-    """
-    return HttpResponse('Hello world!')
+class Home(TemplateView):
+    template_name = 'food_blog/home.html'
 
 
-def home(request):
-    # Get last 10 posts
-    latest_posts = models.Post.objects.order_by('-published')[:10]
+class AboutView(TemplateView):
+    template_name = 'food_blog/about.html'
 
-    # Get topics related to the latest 10 posts
-    topic_numbers = models.Topic.objects.filter(
-        post__in=Subquery(latest_posts.values('id')),
-    ).annotate(
-        post_count=Count('post', distinct=True),
-    )
-    popular_topics = topic_numbers.order_by('-post_count')
-    # Add as context variables
-    context = {
-        'latest_posts': latest_posts,
-        'popular_topics': popular_topics,
-    }
-    return render(request, 'food_blog/home.html', context)
+
+def terms_and_conditions(request):
+    return render(request, 'food_blog/terms_and_conditions.html')
+
+
+class PostListView(ListView):
+    model = models.Post
+    context_object_name = 'posts'
+    queryset = models.Post.objects.published().order_by('-published')

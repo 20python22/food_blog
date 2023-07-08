@@ -21,8 +21,10 @@ from django.views.generic import RedirectView
 from . import views  # Import the views module
 
 urlpatterns = [
-    # path('', views.index),  # Add our index view to the URL patterns
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),  # Set root to home view
+    path('', views.Home.as_view(), name='home'),
+    path('about/', views.AboutView.as_view(), name='about'),
+    path('terms/', views.terms_and_conditions, name='terms-and-conditions'),
+    path('posts/', views.PostListView.as_view(), name='post-list'),
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico'))  # Favicon
 ]
