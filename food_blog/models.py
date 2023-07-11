@@ -12,8 +12,6 @@ class Topic(models.Model):
     """
     Represents a topic post
     """
-    objects = None  # This is required to fix pylint error Unresolved attribute reference
-    # 'objects' for class 'Topic'
     name = models.CharField(
         max_length=50,
         blank=False,
@@ -36,8 +34,6 @@ class Post(models.Model):
     """
     Represents a blog post
     """
-    objects = None  # This is required to fix pylint error Unresolved attribute
-    # reference 'objects' for class 'Comment'
     DRAFT = 'draft'
     PUBLISHED = 'published'
     STATUS_CHOICES = [
@@ -124,10 +120,6 @@ class Comment(models.Model):
     updated = models.DateTimeField(
         auto_now=True  # Updates on each save
     )
-
-    class Meta:
-        """Ordering by created"""
-        ordering = ['-created']
 
     def __str__(self):
         return str(self.post)
