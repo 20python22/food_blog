@@ -1,4 +1,4 @@
-{# blog/templates/food_blog/post_list.html #}
+{# food_blog/templates/food_blog/post_list.html #}
 {% extends "food_blog/base.html" %}
 
 {% block title %}Posts{% endblock %}
@@ -12,7 +12,7 @@
     <time>{{ post.published }}</time>
     <section class="teaser">
       {{ post.content|truncatewords:20 }}
-      <p><a href="#">Read more &rarr;</a></p>
+      <p><a href="{{ post.get_absolute_url }}">Read more &rarr; </a></p>
     </section>
   </article>
 {% endfor %}

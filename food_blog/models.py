@@ -6,12 +6,14 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 class Topic(models.Model):
     """
     Represents a topic post
     """
+    objects = None
     name = models.CharField(
         max_length=50,
         blank=False,
@@ -19,7 +21,8 @@ class Topic(models.Model):
     )
     slug = models.SlugField(
         blank=False,
-        null=False
+        null=False,
+        unique=True
     )
 
     def get_absolute_url(self):
@@ -30,10 +33,20 @@ class Topic(models.Model):
         return str(self.name)
 
 
+class PublishedManager(models.Manager):
+    def published(self):
+        return self.filter(status='published')
+
+    def get_authors(self):
+        return User.objects.filter(posts__status='published').distinct()
+
+
 class Post(models.Model):
     """
     Represents a blog post
     """
+    objects = PublishedManager()
+
     DRAFT = 'draft'
     PUBLISHED = 'published'
     STATUS_CHOICES = [
@@ -50,7 +63,7 @@ class Post(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,  # The Django auth user model
         on_delete=models.PROTECT,  # Prevent posts from being deleted
-        related_name='user',
+        related_name='posts',
         blank=False,
         null=False
     )
@@ -64,12 +77,12 @@ class Post(models.Model):
         max_length=10,
         choices=STATUS_CHOICES,
         default=DRAFT,
-        help_text='Set to "Published" to make this post publicly visible',
+        help_text='Set to "Published" to make this post publicly visible. If the post is set to Draft'
+                  'it will not display on the site',
         blank=False,
         null=False
     )
     published = models.DateTimeField(
-        auto_now_add=True,
         verbose_name='date published'
     )
     slug = models.SlugField(
@@ -86,13 +99,24 @@ class Post(models.Model):
     def __str__(self):
         return str(self.title)
 
+    def get_absolute_url(self):
+        if self.published:
+            kwargs = {
+                'year': self.published.year,
+                'month': self.published.month,
+                'day': self.published.day,
+                'slug': self.slug
+            }
+        else:
+            kwargs = {'pk': self.pk}
+
+        return reverse('post-detail', kwargs=kwargs)
+
 
 class Comment(models.Model):
     """
     Represents a comment post
     """
-    objects = None  # This is required to fix pylint error Unresolved attribute
-    # reference 'objects' for class 'Comment'
     post = models.ForeignKey(
         'Post',
         on_delete=models.CASCADE,

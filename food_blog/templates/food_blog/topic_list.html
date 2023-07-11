@@ -1,0 +1,18 @@
+{# food_blog/templates/food_blog/topics_list.html #}
+{% extends "food_blog/base.html" %}
+
+{% block title %}Topics{% endblock %}
+
+{% block main %}
+<h1>Topics</h1>
+
+{% for topic in topics %}
+  <article class="topics_preview">
+    <h2>{{ topic.name }}</h2>
+    <section class="teaser">
+      <p><a href="{{ topics.get_absolute_url }}">Read more &rarr; </a></p>
+    </section>
+  </article>
+{% endfor %}
+
+{% endblock %}
