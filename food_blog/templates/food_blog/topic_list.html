@@ -1,4 +1,4 @@
-{# food_blog/templates/food_blog/topics_list.html #}
+{# food_blog/templates/food_blog/topic_list.html #}
 {% extends "food_blog/base.html" %}
 
 {% block title %}Topics{% endblock %}
@@ -6,13 +6,12 @@
 {% block main %}
 <h1>Topics</h1>
 
+<div class="topic-list">
 {% for topic in topics %}
   <article class="topics_preview">
-    <h2>{{ topic.name }}</h2>
-    <section class="teaser">
-      <p><a href="{{ topics.get_absolute_url }}">Read more &rarr; </a></p>
-    </section>
+    <li><a href="{{ topic.get_absolute_url }}">{{ topic.name }}</a></li>
   </article>
 {% endfor %}
+<div class="topic-list">
 
 {% endblock %}

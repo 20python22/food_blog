@@ -29,7 +29,7 @@ urlpatterns = [
     path('posts/<int:year>/<int:month>/<int:day>/<slug:slug>/', views.PostDetailView.as_view(), name='post-detail'),
     path('posts/<int:pk>/', views.PostDetailView.as_view(), name='post-detail'),
     path('topics/', views.TopicsListView.as_view(), name='topics-list'),
-    path('topics/<int:year>/<int:month>/<int:day>/<slug:slug>/', views.TopicsDetailView.as_view(), name='topics-detail'),
+    path('topics/<slug:slug>/', views.TopicsDetailView.as_view(), name='topics-detail'),
     path('topics/<int:pk>/', views.TopicsDetailView.as_view(), name='topics-detail'),
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico'))  # Favicon
 ]

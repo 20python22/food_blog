@@ -1,14 +1,18 @@
 {# food_blog/templates/food_blog/topic_detail.html #}
-{% extends "food_blog/base.html" %}
-
+{% extends 'food_blog/base.html' %}
 {% block page_title %}{{ topic.name }}{% endblock %}
 
-{% block main %}
-<article id="post-detail-article">
-  <h1>{{ post.title }}</h1>
-  <span class="published">Published <time>{{ post.published }}</time></span><br>
-  <span class="author">{{ post.author.get_full_name }}</span>
+<h1>{{ post.name }}</h1>
 
-  <section class="content">{{ post.content|linebreaks }}</section>
+{% with post as related_post %}
+{% for related_post in related_post.post_set.all %}
+<article class="post-preview">
+<h2>{{ related_post.title }}</h2>
+<time>{{ related_post.published }}</time>
+<section class="teaser">
+{{ related_post.content|truncatewords:20 }}
+<p><a href="{{ related_post.get_absolute_url }}">Read more →</a></p>
+</section>
 </article>
-{% endblock %}
+{% endfor %}
+{% endwith %}

@@ -120,3 +120,7 @@ a:hover {
 #post-detail-article .content {
   margin: 2rem 0;
 }
+
+.topic-list {
+    font-size: 25px;
+}

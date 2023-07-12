@@ -27,7 +27,10 @@ class Topic(models.Model):
 
     def get_absolute_url(self):
         """Slug definition"""
-        return reverse("article_detail", kwargs={"slug": self.slug})  # new
+        kwargs = {
+            'slug': self.slug
+        }
+        return reverse("topics-detail", kwargs=kwargs)  # new
 
     def __str__(self):
         return str(self.name)

@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'food_blog.context_processors.base_context',
+                'food_blog.context_processors.unique_author_names',
             ],
         },
     },
