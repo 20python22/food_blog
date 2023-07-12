@@ -6,7 +6,7 @@ from django.db.models import Subquery
 
 
 def base_context(request):
-    authors = models.Post.objects.published().get_authors().order_by('first_name')
+    # authors = models.Post.objects.published().get_authors().order_by('first_name')
 
     # Get last 10 posts
     latest_posts = models.Post.objects.order_by('-published')[:10]
@@ -22,6 +22,6 @@ def base_context(request):
     context = {
         'latest_posts': latest_posts,
         'popular_topics': popular_topics,
-        'authors': authors
+        # 'authors': authors
     }
     return context
