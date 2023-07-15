@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.views.generic import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views  # Import the views module
 
@@ -31,5 +33,6 @@ urlpatterns = [
     path('topics/', views.TopicsListView.as_view(), name='topics-list'),
     path('topics/<slug:slug>/', views.TopicsDetailView.as_view(), name='topics-detail'),
     path('topics/<int:pk>/', views.TopicsDetailView.as_view(), name='topics-detail'),
+    path('contest/', views.PhotoContestFormView.as_view(), name='contest'),
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico'))  # Favicon
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

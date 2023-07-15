@@ -6,9 +6,10 @@ All the Django views are in this file.
 
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from django.views.generic import ListView
-from django.views.generic import DetailView
+from django.views.generic import DetailView, CreateView, ListView
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.contrib import messages
 from . import models
 
 
@@ -62,3 +63,22 @@ class TopicsDetailView(DetailView):
         topic = get_object_or_404(models.Topic, slug=slug)
 
         return topic
+
+
+class PhotoContestFormView(CreateView):
+    model = models.PhotoContest
+    success_url = reverse_lazy('home')
+    fields = [
+        'first_name',
+        'last_name',
+        'email',
+        'photo',
+    ]
+
+    def form_valid(self, form):
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            'Thank you! Your photo submission has been received.'
+        )
+        return super().form_valid(form)

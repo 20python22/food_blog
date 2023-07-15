@@ -2,17 +2,17 @@
 {% extends 'food_blog/base.html' %}
 {% block page_title %}{{ topic.name }}{% endblock %}
 
-<h1>{{ post.name }}</h1>
+{% block main %}
+<h1>{{ topic.name }}</h1>
 
-{% with post as related_post %}
-{% for related_post in related_post.post_set.all %}
+{% for related_post in topic.post_set.all %}
 <article class="post-preview">
-<h2>{{ related_post.title }}</h2>
-<time>{{ related_post.published }}</time>
-<section class="teaser">
-{{ related_post.content|truncatewords:20 }}
-<p><a href="{{ related_post.get_absolute_url }}">Read more →</a></p>
-</section>
+    <h2>{{ related_post.title }}</h2>
+    <time>{{ related_post.published }}</time>
+    <section class="teaser">
+        {{ related_post.content|truncatewords:20 }}
+        <p><a href="{{ related_post.get_absolute_url }}">Read more →</a></p>
+    </section>
 </article>
 {% endfor %}
-{% endwith %}
+{% endblock %}

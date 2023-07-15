@@ -99,6 +99,12 @@ class Post(models.Model):
         """Ordering by created"""
         ordering = ['-created']
 
+    banner = models.ImageField(
+        blank=True,
+        null=True,
+        help_text='A banner image for the post'
+    )
+
     def __str__(self):
         return str(self.title)
 
@@ -150,3 +156,17 @@ class Comment(models.Model):
 
     def __str__(self):
         return str(self.post)
+
+
+class PhotoContest(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField()
+    photo = models.ImageField(upload_to='images/', default='default.jpg')
+    submitted = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-submitted']
+
+    def __str__(self):
+        return f'{self.submitted.date()}: {self.email}'

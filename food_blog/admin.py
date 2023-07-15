@@ -76,3 +76,21 @@ class TopicAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Topic, TopicAdmin)
+
+
+@admin.register(models.PhotoContest)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = (
+        'email',
+        'last_name',
+        'first_name',
+        'submitted'
+    )
+    # Make these fields read-only in the admin
+    readonly_fields = (
+        'first_name',
+        'last_name',
+        'email',
+        'photo',
+        'submitted'
+    )

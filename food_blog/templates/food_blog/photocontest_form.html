@@ -1,0 +1,27 @@
+{# food_blog/templates/food_blog/photocontest_form.html #}
+
+{% extends "food_blog/base.html" %}
+
+{% block page_title %}Photo Contest{% endblock %}
+
+
+{% block main %}
+  <h1>Enter the photo contest!</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae neque lorem. Cras id ante efficitur, ultricies
+    dui condimentum, efficitur ligula. Pellentesque sit amet lectus augue. In id justo eu ipsum auctor molestie.
+    Suspendisse sed nunc vitae justo malesuada elementum. In gravida odio dui, vitae finibus metus congue sit amet.
+    In tempus neque sed fermentum mollis. Nulla blandit elementum purus, nec tristique quam imperdiet ut. Vestibulum
+    ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed tempus mi odio, nec ultrices erat
+    congue quis.</p>
+  <p>Curabitur feugiat vitae dui non varius. Ut aliquet posuere ligula. Maecenas maximus tortor id purus pretium, ac
+    posuere felis feugiat. Curabitur imperdiet, massa quis aliquam pulvinar, turpis augue placerat massa, non
+    pellentesque enim velit nec nunc. Proin quis eleifend mi. Class aptent taciti sociosqu ad litora torquent per
+    conubia nostra, per inceptos himenaeos.</p>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}
