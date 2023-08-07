@@ -1,5 +1,6 @@
 {# food_blog/templates/food_blog/post_detail.html #}
 {% extends "food_blog/base.html" %}
+{% load static %}
 
 {% block page_title %}{{ post.title }}{% endblock %}
 
@@ -12,10 +13,65 @@
             {% for topic in post.topics.all %}
             <a href = "{{ topic.get_absolute_url }}">{{ topic }}</a>
             {% endfor %}
-        </span>
+  </span>
   {% if post.banner %}
     <img src="{{ post.banner.url }}" width="100%" alt="Banner image">
   {% endif %}
   <section class="content">{{ post.content|linebreaks }}</section>
+  <hr>
+  <h2>Latest Comments</h2>
+  <section class="comment">
+    {% for comment in post.comments.all %}
+    <div class="comment-load">
+    <h3>By {{ comment.name }} | {{ comment.created }}</h3>
+    <p>{{ comment.text }}</p>
+    <div style = "display:inline;"  class = "like" onclick = "likeHandler('{{comment.id}}')">
+      <img src="{% static 'food_blog/thumbsup.png' %}" alt="Like" width="25" height="25"></a>
+      <div id="like_button_{{comment.id}}" style = "display:inline;">{{ comment.likes }}</div>
+    </div>
+    <div style="display: inline;" className="dislike" onClick="dislikeHandler('{{comment.id}}')">
+        <img src="{% static 'food_blog/thumbsdown.png' %}" alt="Dislike" width="25" height="25"></a>
+        <div id="dislike_button_{{comment.id}}" style="display: inline;">{{ comment.dislikes }}</div>
+    </div>
+        <br>
+        <br>
+    {% endfor %}
+    <script>
+        var csrftoken = getCookie("csrftoken");
+        //likes
+        function likeHandler(id) {
+            let comment_id = id
+            let url = "{% url 'like' %}"
+            const data = {id:comment_id}
+            element = document.getElementById("like_button_"+id);
+            element.innerHTML ++
+            fetch(url, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': csrftoken },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+        }
+        function dislikeHandler(id) {
+            let comment_id = id
+            let url = "{% url 'dislike' %}"
+            const data = {id:comment_id}
+            element = document.getElementById("dislike_button_"+id);
+            element.innerHTML ++
+            fetch(url, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': csrftoken },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+        }
+    </script>
+  </section>
 </article>
 {% endblock %}

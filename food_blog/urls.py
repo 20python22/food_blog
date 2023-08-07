@@ -21,6 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from . import views  # Import the views module
+from .views import like_comment, dislike_comment
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,5 +35,9 @@ urlpatterns = [
     path('topics/<slug:slug>/', views.TopicsDetailView.as_view(), name='topics-detail'),
     path('topics/<int:pk>/', views.TopicsDetailView.as_view(), name='topics-detail'),
     path('contest/', views.PhotoContestFormView.as_view(), name='contest'),
+    path('comments/<int:pk>/like/', views.like_comment, name='like_comment'),
+    path('comments/<int:pk>/dislike/', views.dislike_comment, name='dislike_comment'),
+    path('like_comment/', views.like_comment, name="like"),
+    path('dislike_comment', views.dislike_comment, name="dislike"),
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico'))  # Favicon
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

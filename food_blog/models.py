@@ -126,6 +126,7 @@ class Comment(models.Model):
     """
     Represents a comment post
     """
+    objects = None
     post = models.ForeignKey(
         'Post',
         on_delete=models.CASCADE,
@@ -153,6 +154,15 @@ class Comment(models.Model):
     updated = models.DateTimeField(
         auto_now=True  # Updates on each save
     )
+    likes = models.PositiveIntegerField(
+        default=0
+    )
+    dislikes = models.PositiveIntegerField(
+        default=0
+    )
+
+    class Meta:
+        ordering = ['-created']
 
     def __str__(self):
         return str(self.post)

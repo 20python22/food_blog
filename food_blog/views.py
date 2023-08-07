@@ -11,6 +11,10 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib import messages
 from . import models
+import json
+from django.db.models import F
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 class Home(TemplateView):
@@ -82,3 +86,24 @@ class PhotoContestFormView(CreateView):
             'Thank you! Your photo submission has been received.'
         )
         return super().form_valid(form)
+
+
+@csrf_exempt
+def like_comment(request):
+    data = json.loads(request.body)
+    print(data)
+    id = data["id"]
+    comment = models.Comment.objects.get(id=id)
+    comment.likes = F('likes') + 1
+    comment.save()
+    return JsonResponse("Liked successfully", safe=False)
+
+@csrf_exempt
+def dislike_comment(request):
+    data = json.loads(request.body)
+    print(data)
+    id = data["id"]
+    comment = models.Comment.objects.get(id = id)
+    comment.dislikes = F('dislikes') + 1
+    comment.save()
+    return JsonResponse("disliked successfully", safe=False)
